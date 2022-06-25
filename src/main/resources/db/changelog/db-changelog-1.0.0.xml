@@ -1,0 +1,27 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1656147274-1" author="Patryk">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pk_user" nullable="false"/>
+            </column>
+            <column name="email" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="user" columnNames="email" constraintName="uc_user_email"/>
+    </changeSet>
+
+
+</databaseChangeLog>
