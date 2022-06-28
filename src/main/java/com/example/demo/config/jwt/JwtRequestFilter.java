@@ -2,6 +2,7 @@ package com.example.demo.config.jwt;
 
 import com.example.demo.user.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
+import liquibase.repackaged.org.apache.commons.lang3.BooleanUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +17,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static liquibase.repackaged.org.apache.commons.lang3.BooleanUtils.isTrue;
 
 @Slf4j
 @Component
@@ -49,7 +52,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             UserDetails userDetails = userService.loadUserByUsername(username);
 
-            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+            if (isTrue(jwtTokenUtil.validateToken(jwtToken, userDetails))) {
 
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

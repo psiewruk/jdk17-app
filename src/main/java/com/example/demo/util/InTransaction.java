@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Getter
 @Component
@@ -18,6 +19,11 @@ public class InTransaction {
     @Transactional
     public void run(Consumer<EntityManager> consumer) {
         consumer.accept(entityManager);
+    }
+
+    @Transactional
+    public <T> T runAndReturn(Function<EntityManager, T> function) {
+        return function.apply(entityManager);
     }
 
 }

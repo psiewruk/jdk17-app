@@ -23,5 +23,30 @@
         <addUniqueConstraint tableName="user" columnNames="email" constraintName="uc_user_email"/>
     </changeSet>
 
+    <changeSet id="1656272140-1" author="Patryk">
+        <createTable tableName="confirmation_code">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pk_confirmation_code" nullable="false"/>
+            </column>
+            <column name="code" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code_type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expires_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="confirmation_code" baseColumnNames="user_id"
+                                 referencedTableName="user" referencedColumnNames="id"
+                                 constraintName="fk_confirmation_code_user_id"
+                                 deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="RESTRICT"/>
+    </changeSet>
 
 </databaseChangeLog>
