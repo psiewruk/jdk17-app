@@ -3,7 +3,6 @@ package com.example.demo.config.security;
 import com.example.demo.config.jwt.JwtAuthenticationEntryPoint;
 import com.example.demo.config.jwt.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.BCException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,13 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final UserDetailsService jwtUserDetailsService;
     private final JwtRequestFilter jwtRequestFilter;
-
-    @Bean
-    public PasswordEncoder bcryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     @Override
@@ -43,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity.authorizeRequests()
-                .mvcMatchers("api/authentication/login").permitAll()
+                .mvcMatchers("/api/authentication/login", "/api/authentication/register").permitAll()
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
